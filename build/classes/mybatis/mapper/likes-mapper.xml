@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="likes">
+ 	<insert id="boardLike" parameterType="hashmap">
+ 		INSERT INTO LIKES VALUES(#{code}, #{userId})
+ 	</insert>
+ 	<select id="findByLikes" resultType="data.Like" parameterType="hashmap">
+ 		SELECT * FROM LIKES WHERE BOARDS_CODE=#{code} AND USER_ID=#{userId}
+ 	</select>
+ </mapper>

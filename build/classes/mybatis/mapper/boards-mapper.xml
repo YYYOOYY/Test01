@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="boards">
+ 	<insert id="createUser" parameterType="hashmap">
+ 		INSERT INTO BOARDS(CODE, WRITER, TITLE, BODY) 
+ 		VALUES(BOARDS_SEQ.NEXTVAL, #{writer}, #{title}, #{body})
+ 	</insert>
+ 	<insert id="createNonUser" parameterType="hashmap">
+ 		INSERT INTO BOARDS(CODE, WRITER, TITLE, BODY, BOARD_PASS) 
+ 		VALUES(BOARDS_SEQ.NEXTVAL, #{writer}, #{title}, #{body}, #{boardPass}) 
+ 	</insert>
+ 	<select id="findByBoardPass" resultType="string" parameterType="string">
+ 		SELECT BOARD_PASS FROM BOARDS WHERE CODE=#{code}
+ 	</select>
+ 	<select id="findSomeByAtoB" resultType="data.Board" parameterType="hashmap">
+		SELECT * FROM
+		(SELECT ROWNUM RN, t.* FROM
+			(SELECT * FROM BOARDS ORDER BY WRITED DESC, VIEW_COUNT DESC, LIKE_COUNT DESC) t
+		) WHERE RN BETWEEN #{a} AND #{b}
+	</select>
+ 	<select id="findByBoard" resultType="data.Board" parameterType="string">
+ 		SELECT * FROM BOARDS WHERE CODE=#{code}
+ 	</select>
+ 	<select id="countBoards" resultType="int"> 
+		SELECT COUNT(*) FROM BOARDS
+	</select>
+	<select id="findByUserBoards" resultType="data.Board" parameterType="hashmap">
+		SELECT BOARDS.* FROM BOARDS 
+		JOIN USERS 
+		ON BOARDS.WRITER = USERS.NICK 
+		WHERE BOARDS.CODE=#{code} AND USERS.ID=#{id}
+	</select>
+	<select id="findByNonUserBoards" resultType="data.Board" parameterType="string">
+		SELECT * FROM BOARDS 
+		WHERE CODE=#{code} AND BOARD_PASS IS NOT NULL
+	</select>
+ 	<update id="updateByLikes" parameterType="string">
+ 		UPDATE BOARDS SET LIKE_COUNT = LIKE_COUNT + 1 WHERE CODE=#{code}
+ 	</update>
+ 	<update id="updateByViews" parameterType="string">
+ 		UPDATE BOARDS SET VIEW_COUNT = VIEW_COUNT + 1 WHERE CODE=#{code}
+ 	</update>
+ 	<update id="updateByBoardBody" parameterType="hashmap">
+ 		UPDATE BOARDS SET BODY = #{body} WHERE CODE=#{code}
+ 	</update>
+ 	<delete id="deleteByBoard" parameterType="string">
+ 		DELETE FROM BOARDS WHERE CODE=#{code}
+ 	</delete>
+ </mapper>
