@@ -30,14 +30,15 @@ public class DetailController extends HttpServlet{
 		
 		HttpSession session = req.getSession();
 		boolean logon = (boolean)session.getAttribute("logon");
-		if(logon == true) {
+		if(logon) {
 			User user = (User)session.getAttribute("logonUser");
 			Map<String, Object> params = new HashMap<>();
 			params.put("code", code);
 			params.put("id", user.getId());
 			
-			Board board = sqlSession.selectOne("boards.findByUserBoards", params);
-			if(board != null) {
+			Board board1 = sqlSession.selectOne("boards.findByUserBoards", params);
+			Board board2 = sqlSession.selectOne("boards.findByNonUserBoards", code);
+			if(board1 != null || board2 != null) {
 				req.setAttribute("userBoard", true);
 			}else {
 				req.setAttribute("userBoard", false);

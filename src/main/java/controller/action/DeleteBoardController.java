@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import data.Board;
+
 @WebServlet("/action/delete")
 public class DeleteBoardController extends HttpServlet {
 	@Override
@@ -28,12 +30,17 @@ public class DeleteBoardController extends HttpServlet {
 		HttpSession session = req.getSession();
 		boolean logon = (boolean)session.getAttribute("logon");
 		if(logon) {
-			int r = sqlSession.delete("boards.deleteByBoard", code);
-			
-			if(r == 1) {
-				resp.sendRedirect("/");
+			Board board = sqlSession.selectOne("boards.findByNonUserBoards", code);
+			if(board != null) {
+				req.getRequestDispatcher("/WEB-INF/views/action/passCheckDelete.jsp").forward(req, resp);
 			}else {
-				resp.sendRedirect("/board/detail?code="+code);
+				int r = sqlSession.delete("boards.deleteByBoard", code);
+				
+				if(r == 1) {
+					resp.sendRedirect("/");
+				}else {
+					resp.sendRedirect("/board/detail?code="+code);
+				}
 			}
 		}else {
 			req.getRequestDispatcher("/WEB-INF/views/action/passCheckDelete.jsp").forward(req, resp);

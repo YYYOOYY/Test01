@@ -22,7 +22,7 @@
 		<c:when test="${sessionScope.logon }">
 		 <div class="top-bar__right">
 			<div>
-				<b>${sessionScope.logonUser.nick }</b>님 환영합니다.
+				<b>${sessionScope.logonUser.nick }</b>님 환영합니다
 			</div>
 			<div class="login-button">
 				<div style="padding: 10px 20px;">
