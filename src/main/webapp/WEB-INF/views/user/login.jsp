@@ -11,7 +11,6 @@
 <body>
 <div class="root">
 	<div class="login-form">
-		<c:if test="${param.error ne null }">아이디 혹은 비밀번호가 일치하지 않습니다.</c:if>
 		<form action="/user/login-task" method="post" class="sign-form">
 			<h2>로그인</h2>
 			<div style="margin: 0.4em">
@@ -19,8 +18,8 @@
 			</div>
 			<div style="margin: 0.4em">
 				<input type="password" placeholder="비밀번호" name="pass" autocomplete="off" />
-			</div>
-	
+			</div>	
+			<c:if test="${param.error ne null }"><small style="color: red;">아이디 혹은 비밀번호가 일치하지 않습니다.</small></c:if>
 			<div style="margin: 0.4em">
 				<button type="submit" class="join-btn">로그인</button>
 			</div>
