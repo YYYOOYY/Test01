@@ -25,6 +25,7 @@ public class ModifyBoardController extends HttpServlet {
 				(SqlSessionFactory)req.getServletContext().getAttribute("sqlSessionFactory");
 		SqlSession sqlSession = factory.openSession(true);
 		
+		String body = req.getParameter("body");
 		
 		String code = req.getParameter("code");
 		
@@ -32,6 +33,8 @@ public class ModifyBoardController extends HttpServlet {
 		
 		HttpSession session = req.getSession();
 		boolean logon = (boolean)session.getAttribute("logon");
+		
+		req.setAttribute("body", body);
 		
 		if(logon) {
 			Board board = sqlSession.selectOne("boards.findByNonUserBoards", code);

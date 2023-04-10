@@ -18,6 +18,7 @@ public class passCheckModifyTaskController extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		String code = req.getParameter("code");
+		String body = req.getParameter("body");
 		
 		SqlSessionFactory factory= 
 				(SqlSessionFactory)req.getServletContext().getAttribute("sqlSessionFactory");
@@ -29,10 +30,12 @@ public class passCheckModifyTaskController extends HttpServlet{
 		
 		String boardPass = sqlSession.selectOne("boards.findByBoardPass", code);
 		
+		req.setAttribute("body", body);
+		
 		if(BCrypt.checkpw(pass, boardPass)) {
 			req.getRequestDispatcher("/WEB-INF/views/action/modify.jsp").forward(req, resp);
 		}else {
-			req.getRequestDispatcher("/WEB-INF/views/action/passCheckModify.jsp").forward(req, resp);
+			req.getRequestDispatcher("/WEB-INF/views/action/passCheckModify.jsp?error=r").forward(req, resp);
 		}
 	}
 }

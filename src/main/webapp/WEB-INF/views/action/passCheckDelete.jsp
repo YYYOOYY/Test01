@@ -9,6 +9,7 @@
 		<div style="margin: 0.4em">
 			<input type="password" placeholder="비밀번호" name="pass" autocomplete="off" />
 		</div>
+			<c:if test="${param.error eq 'r' }"><small style="color: red;">비밀번호가 일치하지 않습니다.</small></c:if>
 		<div style="margin: 0.4em">
 			<button type="submit" class="join-btn">확인</button>
 		</div>

@@ -38,7 +38,7 @@ public class PassCheckDeleteTaskController extends HttpServlet{
 				resp.sendRedirect("/board/detail?code="+code);
 			}
 		}else {
-			req.getRequestDispatcher("/WEB-INF/views/action/passCheckDelete.jsp").forward(req, resp);
+			req.getRequestDispatcher("/WEB-INF/views/action/passCheckDelete.jsp?error=r").forward(req, resp);
 		}
 	}
 }

@@ -36,11 +36,11 @@
 	    <div class="footer-right">
 	    	<c:choose>
 				<c:when test="${userBoard eq true && sessionScope.logon eq true}">
-					<a href="/action/modify?code=${board.code }" class="edit-btn"><b style="font-size: 15px;">수정</b></a>
+					<a href="/action/modify?code=${board.code }&body=${board.body}" class="edit-btn"><b style="font-size: 15px;">수정</b></a>
 					<a href="/action/delete?code=${board.code }" class="delete-btn"><b style="font-size: 15px;">삭제</b></a>
 				</c:when>
 				<c:when test="${nonUserBoard eq true && sessionScope.logon eq false }">
-					<a href="/action/modify?code=${board.code }" class="edit-btn"><b style="font-size: 15px;">수정</b></a>
+					<a href="/action/modify?code=${board.code }&body=${board.body}" class="edit-btn"><b style="font-size: 15px;">수정</b></a>
 					<a href="/action/delete?code=${board.code }" class="delete-btn"><b style="font-size: 15px;">삭제</b></a>
 				</c:when>
 			</c:choose>
