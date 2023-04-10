@@ -23,7 +23,7 @@
 					<input type="text" placeholder="제목" name="title" required autocomplete="off" />
 				</div>
 				<div style="margin: 0.4em">
-					<textarea name="body" placeholder="내용"></textarea>
+					<textarea name="body" placeholder="내용(내용칸을 늘릴 수 있습니다.)"></textarea>
 				</div>
 					<div style="margin: 0.4em">
 					<input type="text" placeholder="아이디" name="writer" required autocomplete="off" />

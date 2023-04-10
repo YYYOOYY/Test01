@@ -9,10 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import data.Board;
 import data.Like;
 import data.User;
 
@@ -35,21 +37,26 @@ public class LikeController extends HttpServlet{
 			params.put("code", code);
 			params.put("userId", user.getId());
 			
-			Like like = sqlSession.selectOne("likes.findByLikes", params);
-			
-			if(like == null) {
-				int r = sqlSession.insert("likes.boardLike", params);
-				
-				if(r == 1) {
-					sqlSession.update("boards.updateByLikes", code);
+			Board board = sqlSession.selectOne("boards.findByBoard", code);
+						
+			if(user.getNick().equals(board.getWriter())){
+				resp.sendRedirect("/board/detail?code="+code+"&error=q");
+			}else {				
+				Like like = sqlSession.selectOne("likes.findByLikes", params);
+				if(like == null) {
+					int r = sqlSession.insert("likes.boardLike", params);
 					
-					sqlSession.close();
-					resp.sendRedirect("/board/detail?code="+code);
+					if(r == 1) {
+						sqlSession.update("boards.updateByLikes", code);
+						
+						sqlSession.close();
+						resp.sendRedirect("/board/detail?code="+code);
+					}else {
+						resp.sendRedirect("/board/detail?code="+code+"&error=r");
+					}				
 				}else {
-					resp.sendRedirect("/board/detail?code="+code+"&error=r");
-				}				
-			}else {
-				resp.sendRedirect("/board/detail?code="+code+"&error=e");
+					resp.sendRedirect("/board/detail?code="+code+"&error=e");
+				}
 			}
 		}
 	}

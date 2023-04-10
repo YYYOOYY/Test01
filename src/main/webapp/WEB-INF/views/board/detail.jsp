@@ -54,7 +54,6 @@
 		<c:when test="${param.error eq 'e' }">
 			<b style="color: red">이미 추천을 누르셨습니다</b>
 		</c:when>
-		
 		<c:otherwise>
 		
 		</c:otherwise>
